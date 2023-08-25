@@ -1,4 +1,6 @@
 
+import React, { useState, useEffect } from 'react';
+
 import {
   SafeAreaView,
   StyleSheet,
@@ -8,7 +10,36 @@ import {
   TouchableOpacity
 } from 'react-native'
 
+import { getUniqueId } from 'react-native-device-info';
+
 const ProfileListPage = ({navigation}) => {
+
+  const [profiles, setProfiles] = useState([])
+
+  useEffect(() => {
+    
+
+    getUniqueId()
+      .then((uniqueId) => {
+        console.log(`DeviceID: ${uniqueId}`)
+        return fetch(`http://54.180.173.143/member/${uniqueId}`)
+      })
+      .then(response => response.json())
+      .then(json => {
+        // console.log(`response: ${JSON.stringify(json)}`)
+        // console.log(`profiles: ${JSON.stringify(json.profiles, null, 2)}`)
+        console.log(json)
+        if (json.profiles) {
+          setProfiles(json.profiles)
+        }
+        
+      })
+      .catch(error => {
+        console.log(error);
+      })
+
+    
+  }, [])
 
   const handleTouchAddProfile = () => {
     console.log("haha")
@@ -21,18 +52,18 @@ const ProfileListPage = ({navigation}) => {
         <Text style={styles.titleText}>
           프 로 필
         </Text>
-        <TouchableOpacity style={styles.profileItem}>
-          <Image 
-            style={styles.avartarIcon}
-            source={require('../img/character_green_avartar.png')} />
-          <Text style={styles.profileName}>김 태 리</Text>
-        </TouchableOpacity>
-        <TouchableOpacity style={styles.profileItem}>
-          <Image 
-            style={styles.avartarIcon}
-            source={require('../img/character_green_avartar.png')} />
-          <Text style={styles.profileName}>마 동 석</Text>
-        </TouchableOpacity>
+        {
+          profiles.map((profile, index) => {
+            return (
+              <TouchableOpacity style={styles.profileItem} key={index}>
+                <Image 
+                  style={styles.avartarIcon}
+                  source={require('../img/character_green_avartar.png')} />
+                <Text style={styles.profileName}>{profile.name}</Text>
+              </TouchableOpacity>
+            )
+          })
+        }
         <TouchableOpacity onPress={handleTouchAddProfile}>
           <Image 
             style={styles.loginIcon}
