@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import {
+  Alert,
   SafeAreaView,
   StyleSheet,
   Text,
@@ -124,7 +125,6 @@ const CreateProfilePage = ({ navigation }) => {
     
     getUniqueId()
       .then((uniqueId) => {
-        console.log(`DeviceId : ${uniqueId}`)
         return fetch(`http://54.180.173.143/member/create?device_ID=${uniqueId}`,{
           method: 'POST',
           headers: {
@@ -142,10 +142,14 @@ const CreateProfilePage = ({ navigation }) => {
       })
       .then(response => response.json())
       .then(json => {
+        
         console.log(`response: ${JSON.stringify(json)}`)
+        Alert.alert(`프로파일이 성공적으로 만들어 졌어요!`);
+        
       })
       .catch(error => {
         console.log(error);
+        Alert.alert(`error: ${error}`);
       })
 
     navigation.goBack()

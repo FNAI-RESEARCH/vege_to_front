@@ -7,21 +7,23 @@ import {
   View,
   Text,
   Image,
-  TouchableOpacity
+  TouchableOpacity,
+  Alert,
 } from 'react-native'
 
 import { getUniqueId } from 'react-native-device-info';
+import { useIsFocused } from '@react-navigation/native';
 
 const ProfileListPage = ({navigation}) => {
 
   const [profiles, setProfiles] = useState([])
+  const isFocused = useIsFocused()
 
   useEffect(() => {
     
 
     getUniqueId()
       .then((uniqueId) => {
-        console.log(`DeviceID: ${uniqueId}`)
         return fetch(`http://54.180.173.143/member/${uniqueId}`)
       })
       .then(response => response.json())
@@ -36,10 +38,11 @@ const ProfileListPage = ({navigation}) => {
       })
       .catch(error => {
         console.log(error);
+        Alert.alert(`Error: ${error}`);
       })
 
     
-  }, [])
+  }, [isFocused])
 
   const handleTouchAddProfile = () => {
     console.log("haha")
