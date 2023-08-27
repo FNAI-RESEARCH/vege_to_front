@@ -1,3 +1,4 @@
 <resources>
     <string name="app_name">VegeToYouMobile</string>
+    <item name="ic_launcher_round" type="mipmap">@mipmap/ic_launcher_round</item>
 </resources>

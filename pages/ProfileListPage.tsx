@@ -24,7 +24,7 @@ const ProfileListPage = ({navigation}) => {
 
     getUniqueId()
       .then((uniqueId) => {
-        return fetch(`http://54.180.173.143/member/${uniqueId}`)
+        return fetch(`https://vegetoyou.com/member/${uniqueId}`)
       })
       .then(response => response.json())
       .then(json => {

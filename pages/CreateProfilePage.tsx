@@ -125,7 +125,7 @@ const CreateProfilePage = ({ navigation }) => {
     
     getUniqueId()
       .then((uniqueId) => {
-        return fetch(`http://54.180.173.143/member/create?device_ID=${uniqueId}`,{
+        return fetch(`https://vegetoyou.com/member/create?device_ID=${uniqueId}`,{
           method: 'POST',
           headers: {
             Accept: 'application/json',
