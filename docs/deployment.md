@@ -20,6 +20,9 @@ Run
 npm run android -- --mode="release"
 ```
 
+#### 안드로이드 아이콘 생성
+Asset Studio Launcher Icon Generator 이 있고 최근엔 IconKitchen 로 변경됨
+
 # Android Play Store 설정
 
 #### 개인 정보 처리 방침 작성하기
