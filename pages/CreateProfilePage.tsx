@@ -32,6 +32,19 @@ const CreateProfilePage = ({ navigation }) => {
     setAllergyCheckList([...allergyCheckList]);
   }
 
+  const handleBirthDateChage = (inputText) => {
+    const numericInput = inputText.replace(/[^\d]/g, '');
+
+    if (numericInput.length <= 8) {
+      // Format the input as YYYY-MM-DD
+      const formattedInput = numericInput
+        .replace(/(\d{4})(\d{2})?(\d{2})?/, '$1-$2-$3')
+        .replace(/(-)$/, '');
+
+        setBirthDate(formattedInput);
+    }
+  }
+
   const handleSaveButtonPressed = () => {
     const allergyList = []
     allergyCheckList.forEach((checked, i) => {
@@ -93,8 +106,9 @@ const CreateProfilePage = ({ navigation }) => {
           
           <TextInput style={styles.inputStyle}
             value={birthDate}
-            onChangeText={(newValue) => setBirthDate(newValue)}
+            onChangeText={handleBirthDateChage}
             placeholder='생년월일'
+            keyboardType="numeric"
           />
           
           <TextInput
