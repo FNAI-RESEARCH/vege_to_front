@@ -9,6 +9,7 @@ import {
   Image,
   TouchableOpacity,
   Alert,
+  Pressable,
 } from 'react-native'
 
 import { getUniqueId } from 'react-native-device-info';
@@ -16,20 +17,17 @@ import { useIsFocused } from '@react-navigation/native';
 
 const ProfileListPage = ({navigation}) => {
 
+  const [selectedIndex, setSelctedIndex] = useState(null)
   const [profiles, setProfiles] = useState([])
   const isFocused = useIsFocused()
 
   useEffect(() => {
-    
-
     getUniqueId()
       .then((uniqueId) => {
         return fetch(`https://vegetoyou.com/member/${uniqueId}`)
       })
       .then(response => response.json())
       .then(json => {
-        // console.log(`response: ${JSON.stringify(json)}`)
-        // console.log(`profiles: ${JSON.stringify(json.profiles, null, 2)}`)
         console.log(json)
         if (json.profiles) {
           setProfiles(json.profiles)
@@ -40,13 +38,25 @@ const ProfileListPage = ({navigation}) => {
         console.log(error);
         Alert.alert(`Error: ${error}`);
       })
-
-    
   }, [isFocused])
 
   const handleTouchAddProfile = () => {
     console.log("haha")
     navigation.navigate("CreateProfile")
+  }
+
+  const handleStartPressed = () => {
+    if (selectedIndex === null) {
+      return
+    }
+
+    const selectedProfile = profiles[selectedIndex]
+
+    navigation.navigate("Profile", selectedProfile)
+  }
+
+  const handleSelectProfile = (index) => {
+    setSelctedIndex(index)
   }
 
   return (
@@ -58,12 +68,23 @@ const ProfileListPage = ({navigation}) => {
         {
           profiles.map((profile, index) => {
             return (
-              <TouchableOpacity style={styles.profileItem} key={index}>
-                <Image 
-                  style={styles.avartarIcon}
-                  source={require('../img/character_green_avartar.png')} />
-                <Text style={styles.profileName}>{profile.name}</Text>
-              </TouchableOpacity>
+              <View key={index}
+                style={{
+                  ...((index === selectedIndex) ? styles.profileSelectIndicator : {}),
+                  ...styles.profileItemContainerDefault
+                }}
+              >
+                <Pressable style={styles.profileItem} 
+                  onPress={() => handleSelectProfile(index)}
+                >
+                  <Image 
+                    style={{
+                      ...styles.avartarIcon
+                    }}
+                    source={require('../img/character_green_avartar.png')} />
+                  <Text style={styles.profileName}>{profile.name}</Text>
+                </Pressable>
+              </View>
             )
           })
         }
@@ -74,7 +95,9 @@ const ProfileListPage = ({navigation}) => {
         </TouchableOpacity>
         
       </View>
-      <TouchableOpacity style={styles.enterButton}>
+      <TouchableOpacity style={styles.enterButton}
+        onPress={handleStartPressed}
+      >
         <Text style={styles.enterButtonTitle}>입장하기</Text>
       </TouchableOpacity>
     </SafeAreaView>
@@ -95,8 +118,16 @@ const styles = StyleSheet.create({
     alignItems: "center",
     flexGrow: 1
   },
+  profileSelectIndicator: {
+    backgroundColor: "#EBFF00",
+    borderColor: "#EBFF00",
+    borderRadius: 20
+  },
+  profileItemContainerDefault: {
+    padding: 10
+  },
   profileItem: {
-    marginTop: 20,
+    backgroundColor: "#ffffff",
     width: "80%",
     padding: 10,
 

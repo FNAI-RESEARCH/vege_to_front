@@ -16,6 +16,7 @@ import { createNativeStackNavigator } from '@react-navigation/native-stack';
 
 import CreateProfilePage from './pages/CreateProfilePage'
 import ProfileListPage from './pages/ProfileListPage'
+import PorfilePage from './pages/ProfilePage'
 
 const Stack = createNativeStackNavigator();
 
@@ -24,11 +25,23 @@ const App = ()=> {
     <NavigationContainer>
       <Stack.Navigator
         screenOptions={{
-          headerShown: false
+          headerShown: true
         }}
       >
-        <Stack.Screen name="ProfileList" component={ProfileListPage} />
-        <Stack.Screen name="CreateProfile" component={CreateProfilePage} />
+        <Stack.Screen 
+          options={{
+            headerShown: false
+          }}
+          name="ProfileList" component={ProfileListPage} />
+        <Stack.Screen name="CreateProfile" component={CreateProfilePage} 
+          options={{
+            headerTitle: ""
+          }}/>
+        <Stack.Screen name="Profile" 
+          options={{
+            headerTitle: "프로필"
+          }}
+          component={PorfilePage} />
       </Stack.Navigator>
     </NavigationContainer>
   );
