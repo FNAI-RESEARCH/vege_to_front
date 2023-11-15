@@ -76,7 +76,7 @@ const styles = StyleSheet.create({
     backgroundColor: "#FFFFFF",
     justifyContent: "space-around",
     alignItems: "center",
-    marginLeft: "2%"
+    marginLeft: "5%"
   },
   menuItem: {
     //flexDirection: "column",
